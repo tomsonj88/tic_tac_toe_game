@@ -43,7 +43,6 @@ def check_victory(board):
         board[2] == board[5] == board[8] or
         board[0] == board[4] == board[8] or
         board[2] == board[4] == board[7]):
-        print("dupa")
         return True
 
 
