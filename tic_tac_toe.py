@@ -34,8 +34,18 @@ def choose_field(player):
     return int(field)
 
 
-def check_victory():
-    pass
+def check_victory(board):
+    if (board[0] == board[1] == board[2] or
+        board[3] == board[4] == board[5] or
+        board[6] == board[7] == board[8] or
+        board[0] == board[3] == board[6] or
+        board[1] == board[4] == board[7] or
+        board[2] == board[5] == board[8] or
+        board[0] == board[4] == board[8] or
+        board[2] == board[4] == board[7]):
+        print("dupa")
+        return True
+
 
 
 def display_player(player):
@@ -46,7 +56,6 @@ def display_player(player):
 
 
 def check_choice(moves, field):
-    # ToDO  check this function
     if field not in moves:
         moves.append(field)
         return True
@@ -54,9 +63,19 @@ def check_choice(moves, field):
         print("Duplicate field! Please choose again")
         return False
 
+
+def display_winner(player):
+    if player == 'O':
+        print("The winner is HUMAN")
+    else:
+        print("The winner is COMPUTER")
+    print("CONGRATULATIONS !!!")
+
+
 turn = 'O'
-board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 moves = []
+
 welcome_intro()
 while True:
     display_board(board)
@@ -67,7 +86,11 @@ while True:
     field = choose_field(turn)
     if not check_choice(moves, field):
         continue
-    board[field] = turn
+    board[field-1] = turn
+    if check_victory(board):
+        display_board(board)
+        display_winner(turn)
+        break
     turn = change_player(turn)
 
 
