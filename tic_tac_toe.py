@@ -9,13 +9,30 @@ def welcome_intro():
     print("Human has O, computer has X ")
 
 
-def display_board(board):
+def create_board():
+    board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-  print(board[0], '|', board[1], '|', board[2],)
-  print('---------')
-  print(board[3], '|', board[4], '|', board[5],)
-  print('---------')
-  print(board[6], '|', board[7], '|', board[8], )
+    print(board[0], '|', board[1], '|', board[2],)
+    print('---------')
+    print(board[3], '|', board[4], '|', board[5],)
+    print('---------')
+    print(board[6], '|', board[7], '|', board[8] )
+    print('')
+
+
+def display_board(board = ['','','','','','','','','']):
+    print(board[0], '|', board[1], '|', board[2],)
+    print('---------')
+    print(board[3], '|', board[4], '|', board[5],)
+    print('---------')
+    print(board[6], '|', board[7], '|', board[8] )
+
+
+def choose_first_player():
+    players = ['human', 'computer']
+    draw = random.randint(0, 1)
+    print(f"{players[draw].upper()} will start game")
+    return players[draw]
 
 
 def change_player(player):
@@ -34,17 +51,19 @@ def choose_field(player):
     return int(field)
 
 
-def check_victory(board):
-    if (board[0] == board[1] == board[2] or
-        board[3] == board[4] == board[5] or
-        board[6] == board[7] == board[8] or
-        board[0] == board[3] == board[6] or
-        board[1] == board[4] == board[7] or
-        board[2] == board[5] == board[8] or
-        board[0] == board[4] == board[8] or
-        board[2] == board[4] == board[7]):
-        return True
+def check_victory(board, player):
+    winner = True
+    moves_to_win = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 7]]
 
+    for i in moves_to_win:
+        a, b, c = i
+        if board[a] == board[b] == board[c]:
+            print("victory")
+            winner = winner and True
+            return winner
+        else:
+            winner = winner and False
+            return winner
 
 
 def display_player(player):
@@ -54,13 +73,11 @@ def display_player(player):
         print("Now is COMPUTER turn")
 
 
-def check_choice(moves, field):
-    if field not in moves:
-        moves.append(field)
-        return True
-    else:
-        print("Duplicate field! Please choose again")
-        return False
+def legal_moves(moves, field):
+    for element in moves:
+        if element == field:
+            moves.remove(element)
+    return moves
 
 
 def display_winner(player):
@@ -72,26 +89,13 @@ def display_winner(player):
 
 
 turn = 'O'
-board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 moves = []
+board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
-welcome_intro()
-while True:
-    display_board(board)
-    if len(moves) >= 9:
-        print("Game over! No more moves on the table")
-        break
-    display_player(turn)
-    field = choose_field(turn)
-    if not check_choice(moves, field):
-        continue
-    board[field-1] = turn
-    if check_victory(board):
-        display_board(board)
-        display_winner(turn)
-        break
-    turn = change_player(turn)
-
+# welcome_intro()
+# choose_first_player()
+create_board()
+display_board()
 
 
 
