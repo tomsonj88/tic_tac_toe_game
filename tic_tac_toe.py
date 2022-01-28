@@ -10,7 +10,7 @@ def welcome_intro():
 
 
 def create_board():
-    board = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    board = [element + 1 for element in range(9)]
 
     print(board[0], '|', board[1], '|', board[2],)
     print('---------')
@@ -19,13 +19,16 @@ def create_board():
     print(board[6], '|', board[7], '|', board[8] )
     print('')
 
+    field = [' ' for _ in range(9)]
+    return field
 
-def display_board(board = ['','','','','','','','','']):
-    print(board[0], '|', board[1], '|', board[2],)
+
+def display_board(field):
+    print(field[0], '|', field[1], '|', field[2], )
     print('---------')
-    print(board[3], '|', board[4], '|', board[5],)
+    print(field[3], '|', field[4], '|', field[5], )
     print('---------')
-    print(board[6], '|', board[7], '|', board[8] )
+    print(field[6], '|', field[7], '|', field[8])
 
 
 def choose_first_player():
@@ -94,8 +97,8 @@ board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 # welcome_intro()
 # choose_first_player()
-create_board()
-display_board()
+board_fields = create_board()
+display_board(board_fields)
 
 
 
