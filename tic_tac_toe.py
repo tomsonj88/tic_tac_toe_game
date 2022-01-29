@@ -47,7 +47,7 @@ def change_player(player):
 
 
 def choose_field(player):
-    if player == 'O':
+    if player == 'human':
         field = input("Please enter number")
     else:
         field = random.randint(0, 8)
@@ -76,7 +76,7 @@ def display_player(player):
         print("Now is COMPUTER turn")
 
 
-def legal_moves(moves, field):
+def delete_from_legal_move(moves, field):
     for element in moves:
         if element == field:
             moves.remove(element)
@@ -91,14 +91,18 @@ def display_winner(player):
     print("CONGRATULATIONS !!!")
 
 
-turn = 'O'
-moves = []
-board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+legal_moves = [element for element in range(1, 10)]
+print(legal_moves)
+field = 0
 
-# welcome_intro()
-# choose_first_player()
+welcome_intro()
+player = choose_first_player()
 board_fields = create_board()
-display_board(board_fields)
+while True:
+    display_board(board_fields)
+    while field not in legal_moves:
+        field = choose_field(player)
+        print("Illegal moves! Try again")
 
 
 
