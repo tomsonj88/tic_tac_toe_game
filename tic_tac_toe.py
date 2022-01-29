@@ -38,53 +38,59 @@ def choose_first_player():
     return players[draw]
 
 
-def change_player(player):
-    if player == 'O':
-       player = 'X'
-    else:
-        player = 'O'
-    return player
-
-
-def choose_field(player):
+def give_token(player):
     if player == 'human':
+        token = 'O'
+    else:
+        token = 'X'
+    return token
+
+
+def change_player(token):
+    if token == 'O':
+        token = 'X'
+    else:
+        token = 'O'
+    return token
+
+
+def choose_field(token):
+    if token == 'O':
         field = input("Please enter number")
     else:
         field = random.randint(0, 8)
     return int(field)
 
 
-def check_victory(board, player):
+def check_victory(board, token):
     winner = True
     moves_to_win = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 7]]
 
     for i in moves_to_win:
         a, b, c = i
-        if board[a] == board[b] == board[c]:
+        if board[a] == board[b] == board[c] == token:
             print("victory")
             winner = winner and True
             return winner
         else:
             winner = winner and False
-            return winner
+    return winner
 
 
-def display_player(player):
-    if player == 'O':
+def display_player(token):
+    if token == 'O':
         print("Now is HUMAN turn")
     else:
         print("Now is COMPUTER turn")
 
 
 def delete_from_legal_move(moves, field):
-    for element in moves:
-        if element == field:
-            moves.remove(element)
+    moves.remove(field)
     return moves
 
 
-def display_winner(player):
-    if player == 'O':
+def display_winner(token):
+    if token == 'O':
         print("The winner is HUMAN")
     else:
         print("The winner is COMPUTER")
@@ -97,12 +103,19 @@ field = 0
 
 welcome_intro()
 player = choose_first_player()
+token = give_token(player)
 board_fields = create_board()
 while True:
     display_board(board_fields)
     while field not in legal_moves:
-        field = choose_field(player)
+        field = choose_field(token)
         print("Illegal moves! Try again")
+    board_fields[field-1] = token
+    if check_victory(board_fields, token):
+        print(f"The winner is {token}")
+        break
+    legal_moves = delete_from_legal_move(legal_moves, field)
+    token = change_player(token)
 
 
 
