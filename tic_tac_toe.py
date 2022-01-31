@@ -118,7 +118,7 @@ while True:
         print("Illegal moves! Try again")
     board_fields[field-1] = token
     if check_victory(board_fields, token):
-        print(f"The winner is {token}")
+        display_winner(token)
         break
     legal_moves = delete_from_legal_move(legal_moves, field)
     token = change_player(token)
