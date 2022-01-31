@@ -4,12 +4,12 @@ TIC-TAC-TOE GAME
 import random
 
 
-def welcome_intro():
+def welcome_intro() -> None:
     print("Welcome in TIC-TAC-TOE game")
     print("Human has O, computer has X ")
 
 
-def create_board():
+def create_board() -> None:
     board = [element + 1 for element in range(9)]
 
     print(board[0], '|', board[1], '|', board[2],)
@@ -23,22 +23,22 @@ def create_board():
     return field
 
 
-def display_board(field):
-    print(field[0], '|', field[1], '|', field[2], )
+def display_board(fields: list) -> None:
+    print(fields[0], '|', fields[1], '|', fields[2], )
     print('---------')
-    print(field[3], '|', field[4], '|', field[5], )
+    print(fields[3], '|', fields[4], '|', fields[5], )
     print('---------')
-    print(field[6], '|', field[7], '|', field[8])
+    print(fields[6], '|', fields[7], '|', fields[8])
 
 
-def choose_first_player():
+def choose_first_player() -> None:
     players = ['human', 'computer']
     draw = random.randint(0, 1)
     print(f"{players[draw].upper()} will start game")
     return players[draw]
 
 
-def give_token(player):
+def give_token(player: str) -> str:
     if player == 'human':
         token = 'O'
     else:
@@ -46,7 +46,7 @@ def give_token(player):
     return token
 
 
-def change_player(token):
+def change_player(token: str) -> str:
     if token == 'O':
         token = 'X'
     else:
@@ -54,7 +54,7 @@ def change_player(token):
     return token
 
 
-def choose_field(token):
+def choose_field(token: str) -> int:
     if token == 'O':
         field = input("Please enter number")
     else:
@@ -62,34 +62,40 @@ def choose_field(token):
     return int(field)
 
 
-def check_victory(board, token):
-    winner = True
-    moves_to_win = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 7]]
+def check_victory(board: list, token: str):
+    winner = False
+    moves_to_win = [[0, 1, 2],
+                    [3, 4, 5],
+                    [6, 7, 8],
+                    [0, 3, 6],
+                    [1, 4, 7],
+                    [2, 5, 8],
+                    [0, 4, 8],
+                    [2, 4, 7]]
 
     for i in moves_to_win:
         a, b, c = i
         if board[a] == board[b] == board[c] == token:
             print("victory")
-            winner = winner and True
+            winner = winner or True
+            display_board(board)
             return winner
-        else:
-            winner = winner and False
     return winner
 
 
-def display_player(token):
+def display_player(token: str) -> None:
     if token == 'O':
         print("Now is HUMAN turn")
     else:
         print("Now is COMPUTER turn")
 
 
-def delete_from_legal_move(moves, field):
+def delete_from_legal_move(moves: list, field: int) -> list:
     moves.remove(field)
     return moves
 
 
-def display_winner(token):
+def display_winner(token: str) -> None:
     if token == 'O':
         print("The winner is HUMAN")
     else:
