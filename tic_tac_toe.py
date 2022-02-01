@@ -9,7 +9,7 @@ def welcome_intro() -> None:
     print("Human has O, computer has X ")
 
 
-def create_board() -> None:
+def create_board() -> list:
     board = [element + 1 for element in range(9)]
 
     print(board[0], '|', board[1], '|', board[2],)
@@ -29,9 +29,10 @@ def display_board(fields: list) -> None:
     print(fields[3], '|', fields[4], '|', fields[5], )
     print('---------')
     print(fields[6], '|', fields[7], '|', fields[8])
+    print("\n")
 
 
-def choose_first_player() -> None:
+def choose_first_player() -> str:
     players = ['human', 'computer']
     draw = random.randint(0, 1)
     print(f"{players[draw].upper()} will start game")
@@ -103,9 +104,18 @@ def display_winner(token: str) -> None:
     print("CONGRATULATIONS !!!")
 
 
+def check_field() -> int:
+    while True:
+        field = choose_field(token)
+        if field not in legal_moves:
+            print("Illegal moves! Try again")
+        else:
+            break
+    return field
+
+
 legal_moves = [element for element in range(1, 10)]
 print(legal_moves)
-field = 0
 
 welcome_intro()
 player = choose_first_player()
@@ -113,9 +123,7 @@ token = give_token(player)
 board_fields = create_board()
 while True:
     display_board(board_fields)
-    while field not in legal_moves:
-        field = choose_field(token)
-        print("Illegal moves! Try again")
+    field = check_field()
     board_fields[field-1] = token
     if check_victory(board_fields, token):
         display_winner(token)
