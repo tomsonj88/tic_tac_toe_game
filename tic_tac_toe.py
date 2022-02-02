@@ -32,11 +32,16 @@ def display_board(fields: list) -> None:
     print("\n")
 
 
-def choose_first_player() -> str:
-    players = ['human', 'computer']
-    draw = random.randint(0, 1)
-    print(f"{players[draw].upper()} will start game")
-    return players[draw]
+# def choose_first_player() -> str:
+#     players = ['human', 'computer']
+#     draw = random.randint(0, 1)
+#     print(f"{players[draw].upper()} will start game")
+#     return players[draw]
+
+def choose_first_player(player: dict) -> str:
+    choice = random.choice(list(player.keys()))
+    print(f"{choice.upper()} will start game")
+    return choice
 
 
 def change_player(token: str) -> str:
@@ -69,9 +74,8 @@ def check_victory(board: list, token: str):
     for i in moves_to_win:
         a, b, c = i
         if board[a] == board[b] == board[c] == token:
-            print("victory")
             winner = winner or True
-            display_board(board)
+            display_winner(token)
             return winner
     return winner
 
@@ -83,7 +87,7 @@ def display_player(token: str) -> None:
         print("Now is COMPUTER turn")
 
 
-def delete_from_legal_move(moves: list, field: int) -> list:
+def delete_from_legal_moves(moves: list, field: int) -> list:
     moves.remove(field)
     return moves
 
@@ -106,23 +110,28 @@ def check_field() -> int:
     return field
 
 
+def is_draw(remains_moves: list):
+    if not remains_moves:
+        print("It is draw")
+        return True
+
+
 legal_moves = [element for element in range(1, 10)]
 print(legal_moves)
 player = {'human': 'O', 'computer': 'X'}
 
 welcome_intro()
-active_player = choose_first_player()
-# token = give_token(active_player)
+active_player = choose_first_player(player)
 token = player[active_player]
 board_fields = create_board()
 while True:
     display_board(board_fields)
     field = check_field()
+    legal_moves = delete_from_legal_moves(legal_moves, field)
     board_fields[field-1] = token
-    if check_victory(board_fields, token):
-        display_winner(token)
+    if check_victory(board_fields, token) or is_draw(legal_moves):
+        display_board(board_fields)
         break
-    legal_moves = delete_from_legal_move(legal_moves, field)
     token = change_player(token)
 
 
