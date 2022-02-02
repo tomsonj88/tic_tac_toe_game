@@ -39,14 +39,6 @@ def choose_first_player() -> str:
     return players[draw]
 
 
-def give_token(player: str) -> str:
-    if player == 'human':
-        token = 'O'
-    else:
-        token = 'X'
-    return token
-
-
 def change_player(token: str) -> str:
     if token == 'O':
         token = 'X'
@@ -72,7 +64,7 @@ def check_victory(board: list, token: str):
                     [1, 4, 7],
                     [2, 5, 8],
                     [0, 4, 8],
-                    [2, 4, 7]]
+                    [2, 4, 6]]
 
     for i in moves_to_win:
         a, b, c = i
@@ -116,10 +108,12 @@ def check_field() -> int:
 
 legal_moves = [element for element in range(1, 10)]
 print(legal_moves)
+player = {'human': 'O', 'computer': 'X'}
 
 welcome_intro()
-player = choose_first_player()
-token = give_token(player)
+active_player = choose_first_player()
+# token = give_token(active_player)
+token = player[active_player]
 board_fields = create_board()
 while True:
     display_board(board_fields)
