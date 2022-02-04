@@ -32,12 +32,6 @@ def display_board(fields: list) -> None:
     print("\n")
 
 
-# def choose_first_player() -> str:
-#     players = ['human', 'computer']
-#     draw = random.randint(0, 1)
-#     print(f"{players[draw].upper()} will start game")
-#     return players[draw]
-
 def choose_first_player(player: dict) -> str:
     choice = random.choice(list(player.keys()))
     print(f"{choice.upper()} will start game")
@@ -110,7 +104,7 @@ def check_field() -> int:
     return field
 
 
-def is_draw(remains_moves: list):
+def is_draw(remains_moves: list) -> bool:
     if not remains_moves:
         print("It is draw")
         return True
