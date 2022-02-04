@@ -50,7 +50,8 @@ def choose_field(token: str) -> int:
     if token == 'O':
         field = input("Please enter number")
     else:
-        field = random.randint(0, 8)
+        field = random.randint(1, 9)
+        print(f"Computer choose field {field}")
     return int(field)
 
 
@@ -98,7 +99,7 @@ def check_field() -> int:
     while True:
         field = choose_field(token)
         if field not in legal_moves:
-            print("Illegal moves! Try again")
+            print("Illegal moves! Try again")   # TODO: sprawdzic jeszcze tutaj
         else:
             break
     return field
@@ -128,7 +129,7 @@ while not check_victory(board_fields, token): #and not is_draw(legal_moves):
     # if check_victory(board_fields, token) or is_draw(legal_moves):
     #     display_board(board_fields)
     #     break
-    token = change_player(token)
+    token = change_player(token)    # ToDo: token jest inny i nie wykrywa winnera
 
 
 
