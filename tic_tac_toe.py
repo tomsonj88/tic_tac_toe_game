@@ -108,6 +108,8 @@ def is_draw(remains_moves: list) -> bool:
     if not remains_moves:
         print("It is draw")
         return True
+    else:
+        return False
 
 
 legal_moves = [element for element in range(1, 10)]
@@ -118,14 +120,14 @@ welcome_intro()
 active_player = choose_first_player(player)
 token = player[active_player]
 board_fields = create_board()
-while True:
+while not check_victory(board_fields, token): #and not is_draw(legal_moves):
     display_board(board_fields)
     field = check_field()
     legal_moves = delete_from_legal_moves(legal_moves, field)
     board_fields[field-1] = token
-    if check_victory(board_fields, token) or is_draw(legal_moves):
-        display_board(board_fields)
-        break
+    # if check_victory(board_fields, token) or is_draw(legal_moves):
+    #     display_board(board_fields)
+    #     break
     token = change_player(token)
 
 
