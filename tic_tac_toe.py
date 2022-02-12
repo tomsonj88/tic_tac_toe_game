@@ -32,12 +32,6 @@ def display_board(fields: list) -> None:
     print("\n")
 
 
-# def choose_first_player() -> str:
-#     players = ['human', 'computer']
-#     draw = random.randint(0, 1)
-#     print(f"{players[draw].upper()} will start game")
-#     return players[draw]
-
 def choose_first_player(player: dict) -> str:
     choice = random.choice(list(player.keys()))
     print(f"{choice.upper()} will start game")
@@ -56,7 +50,8 @@ def choose_field(token: str) -> int:
     if token == 'O':
         field = input("Please enter number")
     else:
-        field = random.randint(0, 8)
+#        field = random.randint(0, 8)
+        field = computer_turn(board_fields)
     return int(field)
 
 
@@ -74,7 +69,8 @@ def check_victory(board: list, token: str):
     for i in moves_to_win:
         a, b, c = i
         if board[a] == board[b] == board[c] == token:
-            winner = winner or True
+            #winner = winner or True
+            winner = True
             display_winner(token)
             return winner
     return winner
@@ -116,6 +112,61 @@ def is_draw(remains_moves: list):
         return True
 
 
+def computer_turn(board_fields):
+    moves_to_win = [[0, 1, 2],
+                    [3, 4, 5],
+                    [6, 7, 8],
+                    [0, 3, 6],
+                    [1, 4, 7],
+                    [2, 5, 8],
+                    [0, 4, 8],
+                    [2, 4, 6]]
+
+
+    board = board_fields[:]
+#    board = ['X', 'X', ' ', ' ', 'O', ' ', ' ', ' ', ' ']
+#    best_moves = [4, 0, 2, 6, 8, 1, 3, 5, 7]
+    best_moves = [5, 1, 3, 7, 9, 2, 4, 6, 8]
+
+    computer_moves = []
+    player_moves = []
+    winner_indicator = 0
+
+    computer_token = 'X'
+    player_token = 'O'
+
+    for element in range(len(board)):
+        if board[element] == ' ':
+            board[element] = computer_token
+            for i in moves_to_win:
+                a, b, c = i
+                if board[a] == board[b] == board[c] == computer_token:
+                    print("Will be winner")
+                    print(i)
+                 #   board[element] = ' '
+                    return element + 1
+            board[element] = ' '
+
+    for element in range(len(board)):
+        if board[element] == ' ':
+            board[element] = player_token
+            for i in moves_to_win:
+                a, b, c = i
+                if board[a] == board[b] == board[c] == player_token:
+                    print("Will be winner")
+                    print(i)
+                 #   board[element] = ' '
+                    return element + 1
+            board[element] = ' '
+
+    for element in best_moves:
+        if board[element-1] == ' ':
+            return element
+
+
+
+
+
 legal_moves = [element for element in range(1, 10)]
 print(legal_moves)
 player = {'human': 'O', 'computer': 'X'}
@@ -124,6 +175,7 @@ welcome_intro()
 active_player = choose_first_player(player)
 token = player[active_player]
 board_fields = create_board()
+#board_fields = [' ', ' ', ' ', ' ', 'O', ' ', ' ', 'X', 'X']       # for debug purpose only
 while True:
     display_board(board_fields)
     field = check_field()
