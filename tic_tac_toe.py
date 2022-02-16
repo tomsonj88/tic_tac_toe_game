@@ -5,11 +5,18 @@ import random
 
 
 def welcome_intro() -> None:
+    """
+    Function displays welcome intro with instructions
+    :return: None
+    """
     print("Welcome in TIC-TAC-TOE game")
     print("Human has O, computer has X ")
 
 
 def create_board() -> list:
+    """
+    Function create board for tic-tac-toe game
+    :return: list"""
     board = [element + 1 for element in range(9)]
 
     print(board[0], '|', board[1], '|', board[2],)
@@ -50,7 +57,6 @@ def choose_field(token: str) -> int:
     if token == 'O':
         field = input("Please enter number")
     else:
-#        field = random.randint(0, 8)
         field = computer_turn(board_fields)
     return int(field)
 
@@ -69,15 +75,14 @@ def check_victory(board: list, token: str):
     for i in moves_to_win:
         a, b, c = i
         if board[a] == board[b] == board[c] == token:
-            #winner = winner or True
             winner = True
-            display_winner(token)
+#            display_winner(token)
             return winner
     return winner
 
 
-def display_player(token: str) -> None:
-    if token == 'O':
+def display_player(turn: str) -> None:
+    if turn == 'O':
         print("Now is HUMAN turn")
     else:
         print("Now is COMPUTER turn")
@@ -88,8 +93,8 @@ def delete_from_legal_moves(moves: list, field: int) -> list:
     return moves
 
 
-def display_winner(token: str) -> None:
-    if token == 'O':
+def display_winner(turn: str) -> None:
+    if turn == 'O':
         print("The winner is HUMAN")
     else:
         print("The winner is COMPUTER")
@@ -112,60 +117,24 @@ def is_draw(remains_moves: list):
         return True
 
 
-def computer_turn(board_fields):
-    moves_to_win = [[0, 1, 2],
-                    [3, 4, 5],
-                    [6, 7, 8],
-                    [0, 3, 6],
-                    [1, 4, 7],
-                    [2, 5, 8],
-                    [0, 4, 8],
-                    [2, 4, 6]]
-
-
+def computer_turn(board_fields, token='X'):
     board = board_fields[:]
-#    board = ['X', 'X', ' ', ' ', 'O', ' ', ' ', ' ', ' ']
-#    best_moves = [4, 0, 2, 6, 8, 1, 3, 5, 7]
     best_moves = [5, 1, 3, 7, 9, 2, 4, 6, 8]
+    counter = 0
 
-    computer_moves = []
-    player_moves = []
-    winner_indicator = 0
-
-    computer_token = 'X'
-    player_token = 'O'
-
-    for element in range(len(board)):
-        if board[element] == ' ':
-            board[element] = computer_token
-            for i in moves_to_win:
-                a, b, c = i
-                if board[a] == board[b] == board[c] == computer_token:
-                    print("Will be winner")
-                    print(i)
-                 #   board[element] = ' '
+    while counter < 2:
+        for element in range(len(board)):
+            if board[element] == ' ':
+                board[element] = token
+                if check_victory(board, token):
                     return element + 1
-            board[element] = ' '
-
-    for element in range(len(board)):
-        if board[element] == ' ':
-            board[element] = player_token
-            for i in moves_to_win:
-                a, b, c = i
-                if board[a] == board[b] == board[c] == player_token:
-                    print("Will be winner")
-                    print(i)
-                 #   board[element] = ' '
-                    return element + 1
-            board[element] = ' '
+                board[element] = ' '
+        token = change_player(token)
+        counter += 1
 
     for element in best_moves:
         if board[element-1] == ' ':
             return element
-
-
-
-
 
 legal_moves = [element for element in range(1, 10)]
 print(legal_moves)
@@ -183,10 +152,7 @@ while True:
     board_fields[field-1] = token
     if check_victory(board_fields, token) or is_draw(legal_moves):
         display_board(board_fields)
+#        display_winner(token)       #ToDo przy remisie tez sie wyswietla kto wygral
+        print("dupa")
         break
     token = change_player(token)
-
-
-
-
-
