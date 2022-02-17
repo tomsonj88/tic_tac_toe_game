@@ -2,6 +2,7 @@
 TIC-TAC-TOE GAME
 """
 import random
+from typing import Union
 
 
 def welcome_intro() -> None:
@@ -76,7 +77,6 @@ def check_victory(board: list, token: str):
         a, b, c = i
         if board[a] == board[b] == board[c] == token:
             winner = True
-#            display_winner(token)
             return winner
     return winner
 
@@ -111,15 +111,13 @@ def check_field() -> int:
     return field
 
 
-def is_draw(remains_moves: list):
+def is_draw(remains_moves: list) -> Union[None, bool]:
     if not remains_moves:
-        print("It is draw")
         return True
 
 
 def computer_turn(board_fields, token='X'):
     board = board_fields[:]
-    best_moves = [5, 1, 3, 7, 9, 2, 4, 6, 8]
     counter = 0
 
     while counter < 2:
@@ -131,12 +129,18 @@ def computer_turn(board_fields, token='X'):
                 board[element] = ' '
         token = change_player(token)
         counter += 1
+    return choose_computer_best_move(board)
+
+
+def choose_computer_best_move(board_fields) -> Union[None, int]:
+    best_moves = [5, 1, 3, 7, 9, 2, 4, 6, 8]
 
     for element in best_moves:
-        if board[element-1] == ' ':
+        if board_fields[element-1] == ' ':
             return element
 
-legal_moves = [element for element in range(1, 10)]
+
+legal_moves = list(range(1, 10))
 print(legal_moves)
 player = {'human': 'O', 'computer': 'X'}
 
@@ -144,15 +148,17 @@ welcome_intro()
 active_player = choose_first_player(player)
 token = player[active_player]
 board_fields = create_board()
-#board_fields = [' ', ' ', ' ', ' ', 'O', ' ', ' ', 'X', 'X']       # for debug purpose only
+
 while True:
     display_board(board_fields)
     field = check_field()
     legal_moves = delete_from_legal_moves(legal_moves, field)
     board_fields[field-1] = token
-    if check_victory(board_fields, token) or is_draw(legal_moves):
-        display_board(board_fields)
-#        display_winner(token)       #ToDo przy remisie tez sie wyswietla kto wygral
-        print("dupa")
+    if check_victory(board_fields, token):
+        display_winner(token)
+        break
+    elif is_draw(legal_moves):
+        print("It is draw")
         break
     token = change_player(token)
+display_board(board_fields)
