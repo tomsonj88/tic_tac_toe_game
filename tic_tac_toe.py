@@ -4,6 +4,57 @@ TIC-TAC-TOE GAME
 import random
 from typing import Union
 
+class Board:
+    # create_board
+    # display board
+
+    def __init__(self, fields):
+        self.fields = fields
+
+    def create_board(self) -> list:
+        """
+        Function create board for tic-tac-toe game
+        :return: list"""
+        board = [element + 1 for element in range(9)]
+
+        print(board[0], '|', board[1], '|', board[2], )
+        print('---------')
+        print(board[3], '|', board[4], '|', board[5], )
+        print('---------')
+        print(board[6], '|', board[7], '|', board[8])
+        print('')
+
+        field = [' ' for _ in range(9)]
+        return field
+
+
+    def display_board(self) -> None:
+        print(self.fields[0], '|', self.fields[1], '|', self.fields[2], )
+        print('---------')
+        print(self.fields[3], '|', self.fields[4], '|', self.fields[5], )
+        print('---------')
+        print(self.fields[6], '|', self.fields[7], '|', self.fields[8] )
+        print("\n")
+
+pola = [' ' for _ in range(9)]
+plansza = Board(pola)
+
+plansza.display_board()
+print("dupa")
+
+class Game:
+    #welcome_intro
+    #choose_first_player
+    #change player
+    pass
+
+
+class Player(Game):
+    #choose_field
+    # display winner
+    pass
+
+
 
 def welcome_intro() -> None:
     """
