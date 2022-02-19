@@ -32,6 +32,11 @@ def create_board() -> list:
 
 
 def display_board(fields: list) -> None:
+    """
+    Function display board for tic-tac-toe game
+    :param fields:
+    :return: None
+    """
     print(fields[0], '|', fields[1], '|', fields[2], )
     print('---------')
     print(fields[3], '|', fields[4], '|', fields[5], )
@@ -41,12 +46,22 @@ def display_board(fields: list) -> None:
 
 
 def choose_first_player(player: dict) -> str:
+    """
+    Function choose between human-player and computer, who will begin game
+    :param player: dict
+    :return: str
+    """
     choice = random.choice(list(player.keys()))
     print(f"{choice.upper()} will start game")
     return choice
 
 
 def change_player(token: str) -> str:
+    """
+    Function change turn.
+    :param token: str
+    :return: str
+    """
     if token == 'O':
         token = 'X'
     else:
@@ -55,6 +70,11 @@ def change_player(token: str) -> str:
 
 
 def choose_field(token: str) -> int:
+    """
+    Function allow to choose field by human and computer
+    :param token: str
+    :return: int
+    """
     if token == 'O':
         field = input("Please enter number")
     else:
@@ -62,7 +82,13 @@ def choose_field(token: str) -> int:
     return int(field)
 
 
-def check_victory(board: list, token: str):
+def check_victory(board: list, token: str) -> bool:
+    """
+    Function checks if we have winning combination on the board
+    :param board: list
+    :param token: str
+    :return: bool
+    """
     winner = False
     moves_to_win = [[0, 1, 2],
                     [3, 4, 5],
@@ -82,6 +108,11 @@ def check_victory(board: list, token: str):
 
 
 def display_player(turn: str) -> None:
+    """
+    Function displays who will move now
+    :param turn: str
+    :return: None
+    """
     if turn == 'O':
         print("Now is HUMAN turn")
     else:
@@ -89,11 +120,22 @@ def display_player(turn: str) -> None:
 
 
 def delete_from_legal_moves(moves: list, field: int) -> list:
+    """
+    Function deletes last move from legal moves list
+    :param moves: list
+    :param field: int
+    :return: list
+    """
     moves.remove(field)
     return moves
 
 
 def display_winner(turn: str) -> None:
+    """
+    Function displays lucky winner
+    :param turn: str
+    :return: None
+    """
     if turn == 'O':
         print("The winner is HUMAN")
     else:
@@ -102,6 +144,10 @@ def display_winner(turn: str) -> None:
 
 
 def check_field() -> int:
+    """
+    Function checks if chosen move is legal
+    :return: int
+    """
     while True:
         field = choose_field(token)
         if field not in legal_moves:
@@ -112,11 +158,22 @@ def check_field() -> int:
 
 
 def is_draw(remains_moves: list) -> Union[None, bool]:
+    """
+    Function checks if it is draw
+    :param remains_moves: list
+    :return:Union
+    """
     if not remains_moves:
         return True
 
 
-def computer_turn(board_fields, token='X'):
+def computer_turn(board_fields: list, token: str ='X'):
+    """
+    Function check if computer have a good move to win or block
+    :param board_fields:
+    :param token:
+    :return:
+    """
     board = board_fields[:]
     counter = 0
 
@@ -132,7 +189,12 @@ def computer_turn(board_fields, token='X'):
     return choose_computer_best_move(board)
 
 
-def choose_computer_best_move(board_fields) -> Union[None, int]:
+def choose_computer_best_move(board_fields: list) -> Union[None, int]:
+    """
+    Function choose step using legal moves list
+    :param board_fields:
+    :return:
+    """
     best_moves = [5, 1, 3, 7, 9, 2, 4, 6, 8]
 
     for element in best_moves:
