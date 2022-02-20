@@ -56,7 +56,7 @@ class Game:
 
 
     #choose_first_player
-    def choose_first_player(self, player: dict) -> str:
+    def choose_first_player(self) -> str:
         choice = random.choice(list(self.player.keys()))
         print(f"{choice.upper()} will start game")
         return choice
@@ -70,38 +70,36 @@ class Game:
             token = 'O'
         return token
 
+    #check_victory
+    def check_victory(self, board: list, token: str):
+        winner = False
+        moves_to_win = [[0, 1, 2],
+                        [3, 4, 5],
+                        [6, 7, 8],
+                        [0, 3, 6],
+                        [1, 4, 7],
+                        [2, 5, 8],
+                        [0, 4, 8],
+                        [2, 4, 6]]
+
+        for i in moves_to_win:
+            a, b, c = i
+            if board[a] == board[b] == board[c] == token:
+                winner = True
+                return winner
+        return winner
+    #display_player
+    #delete_from_legal_moves
+    #display_winner
+    #check_field
+    #is_draw
+
+
 
 class Player(Game):
     #choose_field
     # display winner
     pass
-
-
-
-def welcome_intro() -> None:
-    """
-    Function displays welcome intro with instructions
-    :return: None
-    """
-    print("Welcome in TIC-TAC-TOE game")
-    print("Human has O, computer has X ")
-
-
-
-
-
-def choose_first_player(player: dict) -> str:
-    choice = random.choice(list(player.keys()))
-    print(f"{choice.upper()} will start game")
-    return choice
-
-
-def change_player(token: str) -> str:
-    if token == 'O':
-        token = 'X'
-    else:
-        token = 'O'
-    return token
 
 
 def choose_field(token: str) -> int:
@@ -177,7 +175,8 @@ def computer_turn(board_fields, token='X'):
                 if check_victory(board, token):
                     return element + 1
                 board[element] = ' '
-        token = change_player(token)
+       # token = change_player(token)
+        token = game.change_player(token)
         counter += 1
     return choose_computer_best_move(board)
 
@@ -199,9 +198,8 @@ game = Game(player)
 
 game.welcome_intro()
 
-active_player = choose_first_player(player)
+active_player = game.choose_first_player()
 token = player[active_player]
-board_fields = [' ' for _ in range(9)]
 
 
 game_field.show_demo_board()
@@ -217,5 +215,6 @@ while True:
     elif is_draw(legal_moves):
         print("It is draw")
         break
-    token = change_player(token)
+    # token = change_player(token)
+    token = game.change_player(token)
 game_field.display_board()
