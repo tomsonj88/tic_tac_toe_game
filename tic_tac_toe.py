@@ -71,7 +71,8 @@ class Game:
         return token
 
     #check_victory
-    def check_victory(self, board: list, token: str):
+    @staticmethod
+    def check_victory(board: list, token: str):
         winner = False
         moves_to_win = [[0, 1, 2],
                         [3, 4, 5],
@@ -88,7 +89,15 @@ class Game:
                 winner = True
                 return winner
         return winner
+
     #display_player
+    @staticmethod
+    def display_player(turn: str) -> None:
+        if turn == 'O':
+            print("Now is HUMAN turn")
+        else:
+            print("Now is COMPUTER turn")
+
     #delete_from_legal_moves
     #display_winner
     #check_field
@@ -108,25 +117,6 @@ def choose_field(token: str) -> int:
     else:
         field = computer_turn(board_fields)
     return int(field)
-
-
-def check_victory(board: list, token: str):
-    winner = False
-    moves_to_win = [[0, 1, 2],
-                    [3, 4, 5],
-                    [6, 7, 8],
-                    [0, 3, 6],
-                    [1, 4, 7],
-                    [2, 5, 8],
-                    [0, 4, 8],
-                    [2, 4, 6]]
-
-    for i in moves_to_win:
-        a, b, c = i
-        if board[a] == board[b] == board[c] == token:
-            winner = True
-            return winner
-    return winner
 
 
 def display_player(turn: str) -> None:
@@ -172,10 +162,9 @@ def computer_turn(board_fields, token='X'):
         for element in range(len(board)):
             if board[element] == ' ':
                 board[element] = token
-                if check_victory(board, token):
+                if game.check_victory(board, token):
                     return element + 1
                 board[element] = ' '
-       # token = change_player(token)
         token = game.change_player(token)
         counter += 1
     return choose_computer_best_move(board)
@@ -209,7 +198,7 @@ while True:
     field = check_field()
     legal_moves = delete_from_legal_moves(legal_moves, field)
     board_fields[field-1] = token
-    if check_victory(board_fields, token):
+    if game.check_victory(board_fields, token):
         display_winner(token)
         break
     elif is_draw(legal_moves):
