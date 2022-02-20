@@ -4,18 +4,21 @@ TIC-TAC-TOE GAME
 import random
 from typing import Union
 
+
 class Board:
-    # create_board
+    # show_demo_board
     # display board
 
     def __init__(self, fields):
         self.fields = fields
 
-    def create_board(self) -> list:
+    @staticmethod
+    def show_demo_board() -> None:
         """
-        Function create board for tic-tac-toe game
-        :return: list"""
-        board = [element + 1 for element in range(9)]
+        Function show demo board for tic-tac-toe game
+        :return: None
+        """
+        board = list(range(1, 10))
 
         print(board[0], '|', board[1], '|', board[2], )
         print('---------')
@@ -24,11 +27,11 @@ class Board:
         print(board[6], '|', board[7], '|', board[8])
         print('')
 
-        field = [' ' for _ in range(9)]
-        return field
-
-
     def display_board(self) -> None:
+        """
+        Methods display board with current moves
+        :return: None
+        """
         print(self.fields[0], '|', self.fields[1], '|', self.fields[2], )
         print('---------')
         print(self.fields[3], '|', self.fields[4], '|', self.fields[5], )
@@ -36,17 +39,36 @@ class Board:
         print(self.fields[6], '|', self.fields[7], '|', self.fields[8] )
         print("\n")
 
-pola = [' ' for _ in range(9)]
-plansza = Board(pola)
-
-plansza.display_board()
-print("dupa")
 
 class Game:
+    def __init__(self, player):
+        self.player = player
+
     #welcome_intro
+    @staticmethod
+    def welcome_intro() -> None:
+        """
+        Function displays welcome intro with instructions
+        :return: None
+        """
+        print("Welcome in TIC-TAC-TOE game")
+        print("Human has O, computer has X ")
+
+
     #choose_first_player
+    def choose_first_player(self, player: dict) -> str:
+        choice = random.choice(list(self.player.keys()))
+        print(f"{choice.upper()} will start game")
+        return choice
+
     #change player
-    pass
+    @staticmethod
+    def change_player(token: str) -> str:
+        if token == 'O':
+            token = 'X'
+        else:
+            token = 'O'
+        return token
 
 
 class Player(Game):
@@ -65,30 +87,7 @@ def welcome_intro() -> None:
     print("Human has O, computer has X ")
 
 
-def create_board() -> list:
-    """
-    Function create board for tic-tac-toe game
-    :return: list"""
-    board = [element + 1 for element in range(9)]
 
-    print(board[0], '|', board[1], '|', board[2],)
-    print('---------')
-    print(board[3], '|', board[4], '|', board[5],)
-    print('---------')
-    print(board[6], '|', board[7], '|', board[8] )
-    print('')
-
-    field = [' ' for _ in range(9)]
-    return field
-
-
-def display_board(fields: list) -> None:
-    print(fields[0], '|', fields[1], '|', fields[2], )
-    print('---------')
-    print(fields[3], '|', fields[4], '|', fields[5], )
-    print('---------')
-    print(fields[6], '|', fields[7], '|', fields[8])
-    print("\n")
 
 
 def choose_first_player(player: dict) -> str:
@@ -190,18 +189,25 @@ def choose_computer_best_move(board_fields) -> Union[None, int]:
         if board_fields[element-1] == ' ':
             return element
 
-
-legal_moves = list(range(1, 10))
-print(legal_moves)
+board_fields = [' ' for _ in range(9)]
 player = {'human': 'O', 'computer': 'X'}
+legal_moves = list(range(1, 10))
 
-welcome_intro()
+game_field = Board(board_fields)
+game = Game(player)
+
+
+game.welcome_intro()
+
 active_player = choose_first_player(player)
 token = player[active_player]
-board_fields = create_board()
+board_fields = [' ' for _ in range(9)]
+
+
+game_field.show_demo_board()
 
 while True:
-    display_board(board_fields)
+    game_field.display_board()
     field = check_field()
     legal_moves = delete_from_legal_moves(legal_moves, field)
     board_fields[field-1] = token
@@ -212,4 +218,4 @@ while True:
         print("It is draw")
         break
     token = change_player(token)
-display_board(board_fields)
+game_field.display_board()
